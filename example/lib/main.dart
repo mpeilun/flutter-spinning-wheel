@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinning_wheel/flutter_spinning_wheel.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }
@@ -60,7 +61,8 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget buildNavigationButton({String text, Function onPressedFn}) {
+  Widget buildNavigationButton(
+      {required String text, VoidCallback? onPressedFn}) {
     return FlatButton(
       color: Color.fromRGBO(255, 255, 255, 0.3),
       textColor: Colors.white,
@@ -104,8 +106,9 @@ class Basic extends StatelessWidget {
             ),
             StreamBuilder(
               stream: _dividerController.stream,
-              builder: (context, snapshot) =>
-                  snapshot.hasData ? BasicScore(snapshot.data) : Container(),
+              builder: (context, snapshot) => snapshot.hasData
+                  ? BasicScore(int.parse(snapshot.data.toString()))
+                  : Container(),
             )
           ],
         ),
@@ -175,8 +178,9 @@ class Roulette extends StatelessWidget {
             SizedBox(height: 30),
             StreamBuilder(
               stream: _dividerController.stream,
-              builder: (context, snapshot) =>
-                  snapshot.hasData ? RouletteScore(snapshot.data) : Container(),
+              builder: (context, snapshot) => snapshot.hasData
+                  ? RouletteScore(int.parse(snapshot.data.toString()))
+                  : Container(),
             ),
             SizedBox(height: 30),
             new RaisedButton(
